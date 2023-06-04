@@ -1,0 +1,336 @@
+import 'package:flutter/material.dart';
+import 'package:fyp2/Screens/Contact-Page/contact.dart';
+import 'package:fyp2/Screens/Planner-Page/planner_page.dart';
+
+class Activity extends StatelessWidget {
+  const Activity({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Background Images
+            Container(
+              height: 160,
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: [
+                  Positioned(
+                    width: 186,
+                    height: 160,
+                    top: -75,
+                    left: -59,
+                    child: Image.asset('lib/images/light-green-circle.png'),
+                  ),
+                  Positioned(
+                    width: 186,
+                    height: 160,
+                    top: -79,
+                    left: 0,
+                    child: Image.asset('lib/images/dark green2.png'),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+
+            // Additional Container
+            Container(
+              margin: EdgeInsets.only(left: 20),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Life Assist',
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Spacing
+            SizedBox(height: 40),
+
+            // Greeting Container
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Good ${_getTimeOfDayGreeting()}!',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            //
+            // Days of the Week
+            SizedBox(height: 40,),
+            Container(
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildHalfRectangle('Mon', Colors.green.shade300),
+                  _buildHalfRectangle('Tue', Colors.green.shade300),
+                  _buildHalfRectangle('Wed', Colors.green.shade300),
+                  _buildHalfRectangle('Thu', Colors.green.shade300),
+                  _buildHalfRectangle('Fri', Colors.green.shade300),
+                ],
+              ),
+            ),
+
+            // Activity and Points
+            Row(
+              children: [
+                // Activity
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _buildRectangleRow('Activity', Colors.grey),
+                      _buildInputRow(),
+                      _buildInputRow(),
+                      _buildInputRow(),
+                      _buildInputRow(),
+                      _buildInputRow(),
+                    ],
+                  ),
+                ),
+
+                // Spacing
+                SizedBox(width: 10),
+
+                // Points
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _buildRectangleRow('Points', Colors.grey),
+                      _buildInputRow(),
+                      _buildInputRow(),
+                      _buildInputRow(),
+                      _buildInputRow(),
+                      _buildInputRow(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            // Spacing
+            SizedBox(height: 40),
+
+            // Button 1
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  height: 49,
+                  width: 160, // Adjust the width as needed
+                  child: Material(
+                    borderRadius: BorderRadius.circular(20),
+                    shadowColor: Colors.black87,
+                    color: Colors.green.shade300,
+                    elevation: 7,
+                    child: GestureDetector(
+                      onTap: () {
+                        print('Heading to Planner Page');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PlannerPage(),
+                          ),
+                        );
+                      },
+                      child: Center(
+                        child: Text(
+                          'Saved Activities',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Times New Roman',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  height: 49,
+                  width: 160, // Adjust the width as needed
+                  child: Material(
+                    borderRadius: BorderRadius.circular(20),
+                    shadowColor: Colors.black87,
+                    color: Colors.green.shade300,
+                    elevation: 7,
+                    child: GestureDetector(
+                      onTap: () {
+                        print('Heading to Feedback Page');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PlannerPage(),
+                          ),
+                        );
+                      },
+                      child: Center(
+                        child: Text(
+                          'Recommendation',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Times New Roman',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 50,),
+            Container(
+              alignment: Alignment.bottomCenter,
+              margin: EdgeInsets.only(top: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Image.asset('lib/images/Arrow facing left side.jpeg', width: 37, height: 32.69),
+                    onPressed: () {
+                      // Navigate to previous page
+                      Navigator.pop(context);
+                    },
+                  ),
+                  IconButton(
+                    icon: Image.asset('lib/images/Icon content-dark.jpeg', width: 35, height: 32.69),
+                    onPressed: () {
+                      // Navigate to content page
+                      Navigator.pushNamed(context, '/content');
+                    },
+                  ),
+                  IconButton(
+                    icon: Image.asset('lib/images/Home.jpeg', width: 40, height: 32.69),
+                    onPressed: () {
+                      // Navigate to home page
+                      Navigator.push(context as BuildContext, MaterialPageRoute(builder: (context)=> HomePage()));
+                    },
+                  ),
+                  IconButton(
+                    icon: Image.asset('lib/images/Contacts.jpeg', width: 37, height: 34.67),
+                    onPressed: () {
+                      // Navigate to content icon page
+                      Navigator.push(context as BuildContext, MaterialPageRoute(builder: (context)=> ContactPage()));
+                    },
+                  ),
+                  IconButton(
+                    icon: Image.asset('lib/images/Arrow acing right most.jpeg', width: 42, height: 32.69),
+                    onPressed: () {
+                      // Navigate to next page
+                      Navigator.push(context as BuildContext, MaterialPageRoute(builder: (context)=> PlannerPage()));
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHalfRectangle(String text, Color color) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(color: Colors.white, width: 2),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(10),
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Text(
+            text,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRectangleRow(String text, Color color) {
+    return Container(
+      height: 40,
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputRow() {
+    return Container(
+      height: 40,
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: TextField(
+        maxLength: 15,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          counterText: '',
+          border: InputBorder.none,
+          hintStyle: TextStyle(color: Colors.grey),
+          filled: true,
+          fillColor: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  String _getTimeOfDayGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour >= 0 && hour < 12) {
+      return 'Morning';
+    } else if (hour >= 12 && hour < 18) {
+      return 'Afternoon';
+    } else {
+      return 'Evening';
+    }
+  }
+}
+
