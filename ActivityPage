@@ -1,306 +1,99 @@
-import 'package:flutter/material.dart';
-import 'package:fyp2/Screens/Contact-Page/contact.dart';
-import 'package:fyp2/Screens/Planner-Page/planner_page.dart';
+import 'dart:math';
 
-class Activity extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
+
+class Activity extends StatefulWidget {
   const Activity({Key? key}) : super(key: key);
+
+  @override
+  _ActivityState createState() => _ActivityState();
+}
+
+class _ActivityState extends State<Activity> {
+  List<int> points = List<int>.filled(5, 0);
+  List<String> activities = [
+    'Wake Up',
+    'Go to Work',
+    'Take Lunch',
+    'Take kids',
+    'Sleep',
+  ];
+  List<String> activityTimes = [
+    '06:00',
+    '08:00',
+    '12:30',
+    '15:00',
+    '22:30',
+  ];
+  List<String> activityKeywords = [
+    'meeting',
+    'kids',
+    'sleep',
+    'eat',
+    'meds',
+    'medicine',
+    'prayer',
+    'salah',
+    'shalat',
+    'sholat',
+    'exercise',
+    'jogging',
+    'gym',
+    'yoga',
+    'meditation',
+    'read Quran',
+    'read holy book',
+    'alms',
+    'charity',
+    'socialize',
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Background Images
-            Container(
-              height: 160,
-              child: Stack(
-                alignment: Alignment.topLeft,
-                children: [
-                  Positioned(
-                    width: 186,
-                    height: 160,
-                    top: -75,
-                    left: -59,
-                    child: Image.asset('lib/images/light-green-circle.png'),
-                  ),
-                  Positioned(
-                    width: 186,
-                    height: 160,
-                    top: -79,
-                    left: 0,
-                    child: Image.asset('lib/images/dark green2.png'),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
+      // ...
 
-            // Additional Container
-            Container(
-              margin: EdgeInsets.only(left: 20),
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Life Assist',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Spacing
-            SizedBox(height: 40),
-
-            // Greeting Container
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Good ${_getTimeOfDayGreeting()}!',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            //
-            // Days of the Week
-            SizedBox(height: 40,),
-            Container(
-              height: 60,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildHalfRectangle('Mon', Colors.green.shade300),
-                  _buildHalfRectangle('Tue', Colors.green.shade300),
-                  _buildHalfRectangle('Wed', Colors.green.shade300),
-                  _buildHalfRectangle('Thu', Colors.green.shade300),
-                  _buildHalfRectangle('Fri', Colors.green.shade300),
-                ],
-              ),
-            ),
-
-            // Activity and Points
-            Row(
+      // Activity and Points
+      Row(
+        children: [
+          // Activity
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Activity
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _buildRectangleRow('Activity', Colors.grey),
-                      _buildInputRow(),
-                      _buildInputRow(),
-                      _buildInputRow(),
-                      _buildInputRow(),
-                      _buildInputRow(),
-                    ],
-                  ),
-                ),
-
-                // Spacing
-                SizedBox(width: 10),
-
-                // Points
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _buildRectangleRow('Points', Colors.grey),
-                      _buildInputRow(),
-                      _buildInputRow(),
-                      _buildInputRow(),
-                      _buildInputRow(),
-                      _buildInputRow(),
-                    ],
-                  ),
-                ),
+                _buildRectangleRow('Activity', Colors.grey),
+                for (int i = 0; i < activities.length; i++)
+                  _buildInputRow(i),
+                _buildTimeInputRow(activities.length),
               ],
             ),
-            // Spacing
-            SizedBox(height: 40),
+          ),
 
-            // Button 1
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // Spacing
+          SizedBox(width: 10),
+
+          // Points
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                  height: 49,
-                  width: 160, // Adjust the width as needed
-                  child: Material(
-                    borderRadius: BorderRadius.circular(20),
-                    shadowColor: Colors.black87,
-                    color: Colors.green.shade300,
-                    elevation: 7,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Heading to Planner Page');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PlannerPage(),
-                          ),
-                        );
-                      },
-                      child: Center(
-                        child: Text(
-                          'Saved Activities',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Times New Roman',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                  height: 49,
-                  width: 160, // Adjust the width as needed
-                  child: Material(
-                    borderRadius: BorderRadius.circular(20),
-                    shadowColor: Colors.black87,
-                    color: Colors.green.shade300,
-                    elevation: 7,
-                    child: GestureDetector(
-                      onTap: () {
-                        print('Heading to Feedback Page');
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PlannerPage(),
-                          ),
-                        );
-                      },
-                      child: Center(
-                        child: Text(
-                          'Recommendation',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Times New Roman',
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                _buildRectangleRow('Points', Colors.grey),
+                for (int i = 0; i < activities.length; i++)
+                  _buildPointsRow(i),
+                _buildPointsRow(activities.length),
               ],
             ),
-
-            SizedBox(height: 50,),
-            Container(
-              alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.only(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: Image.asset('lib/images/Arrow facing left side.jpeg', width: 37, height: 32.69),
-                    onPressed: () {
-                      // Navigate to previous page
-                      Navigator.pop(context);
-                    },
-                  ),
-                  IconButton(
-                    icon: Image.asset('lib/images/Icon content-dark.jpeg', width: 35, height: 32.69),
-                    onPressed: () {
-                      // Navigate to content page
-                      Navigator.pushNamed(context, '/content');
-                    },
-                  ),
-                  IconButton(
-                    icon: Image.asset('lib/images/Home.jpeg', width: 40, height: 32.69),
-                    onPressed: () {
-                      // Navigate to home page
-                      Navigator.push(context as BuildContext, MaterialPageRoute(builder: (context)=> HomePage()));
-                    },
-                  ),
-                  IconButton(
-                    icon: Image.asset('lib/images/Contacts.jpeg', width: 37, height: 34.67),
-                    onPressed: () {
-                      // Navigate to content icon page
-                      Navigator.push(context as BuildContext, MaterialPageRoute(builder: (context)=> ContactPage()));
-                    },
-                  ),
-                  IconButton(
-                    icon: Image.asset('lib/images/Arrow acing right most.jpeg', width: 42, height: 32.69),
-                    onPressed: () {
-                      // Navigate to next page
-                      Navigator.push(context as BuildContext, MaterialPageRoute(builder: (context)=> PlannerPage()));
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
+
+      // ...
     );
   }
 
-  Widget _buildHalfRectangle(String text, Color color) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: Colors.white, width: 2),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
-          ),
-        ),
-        alignment: Alignment.center,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRectangleRow(String text, Color color) {
-    return Container(
-      height: 40,
-      margin: const EdgeInsets.only(bottom: 10),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInputRow() {
+  Widget _buildInputRow(int index) {
     return Container(
       height: 40,
       margin: const EdgeInsets.only(bottom: 10),
@@ -318,19 +111,102 @@ class Activity extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
         ),
+        onChanged: (value) {
+          setState(() {
+            bool containsKeyword = false;
+            for (String keyword in activityKeywords) {
+              if (value.toLowerCase().contains(keyword.toLowerCase())) {
+                containsKeyword = true;
+                break;
+              }
+            }
+
+            // Update the points list based on the input value and containsKeyword flag
+            if (containsKeyword) {
+              points[index] = (Random().nextInt(6) + 5) * 0.5.toInt();
+            } else {
+              points[index] = value.length;
+            }
+          });
+        },
       ),
     );
   }
 
-  String _getTimeOfDayGreeting() {
-    final hour = DateTime.now().hour;
-    if (hour >= 0 && hour < 12) {
-      return 'Morning';
-    } else if (hour >= 12 && hour < 18) {
-      return 'Afternoon';
-    } else {
-      return 'Evening';
-    }
+  Widget _buildTimeInputRow(int index) {
+    return Container(
+      height: 40,
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: FormBuilderDateTimePicker(
+        name: 'time',
+        inputType: InputType.time,
+        format: DateFormat('HH:mm'),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          counterText: '',
+          border: InputBorder.none,
+          hintStyle: TextStyle(color: Colors.grey),
+          filled: true,
+          fillColor: Colors.white,
+        ),
+        onChanged: (value) {
+          setState(() {
+            if (value != null) {
+              DateTime now = DateTime.now();
+              DateTime selectedTime = DateTime(
+                now.year,
+                now.month,
+                now.day,
+                value.hour,
+                value.minute,
+              );
+              points[index] = selectedTime.difference(now).inMinutes;
+            } else {
+              points[index] = 0;
+            }
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildPointsRow(int index) {
+    return Container(
+      height: 40,
+      margin: const EdgeInsets.only(bottom: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey, width: 1),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        points[index].toString(),
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  // Helper method to build the rectangle row widget
+  Widget _buildRectangleRow(String label, Color color) {
+    return Container(
+      height: 30,
+      color: color,
+      alignment: Alignment.center,
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 }
-
